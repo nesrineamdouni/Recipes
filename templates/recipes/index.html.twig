@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recipes index{% endblock %}
+
+{% block body %}
+{% include 'partials/navbar.html.twig' %}
+<br/>
+{% include 'partials/welcome.html.twig' %}
+
+<div class="container text-center">
+    <br/>
+
+    <div class="row justify-content-center">
+        {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    {% if recipe.imagePath %}
+                        <img src="{{ asset('uploads/images/' ~ recipe.imagePath) }}" class="card-img-top" alt="Image" style="max-width: 400px; max-height: 400px;">
+                    {% else %}
+                        <div class="no-image-placeholder">No image available</div>
+                    {% endif %}
+                    <div class="card-body">
+                            <h5 class="card-title">{{ recipe.title }}</h5>
+                            <p class="card-text">{{ recipe.content|split(' ')|slice(0, 41)|join(' ') }}</p>
+                            <p class="card-text">Created by: {{ recipe.usernameUser  }}</p>
+                                    <a href="{{ path('app_recipes_show', {'id': recipe.id}) }}" class="btn btn-primary">See more</a>
+
+                            <p class="card-text"><small class="text-muted">{{ recipe.createdAt ? recipe.createdAt|date('Y-m-d H:i:s') : '' }}</small></p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No records found</p>
+        {% endfor %}
+    </div>
+ 
+<br/>
+</div>
+
+{% include 'partials/footer.html.twig' %}
+
+{% endblock %}
